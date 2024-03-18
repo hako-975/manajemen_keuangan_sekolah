@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2024 at 11:16 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 7.4.33
+-- Waktu pembuatan: 18 Mar 2024 pada 18.59
+-- Versi server: 10.4.27-MariaDB
+-- Versi PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `manajemen_keuangan`
+-- Database: `manajemen_keuangan_baru`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jabatan`
+-- Struktur dari tabel `jabatan`
 --
 
 CREATE TABLE `jabatan` (
@@ -33,7 +33,7 @@ CREATE TABLE `jabatan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `jabatan`
+-- Dumping data untuk tabel `jabatan`
 --
 
 INSERT INTO `jabatan` (`id_jabatan`, `nama_jabatan`) VALUES
@@ -43,35 +43,53 @@ INSERT INTO `jabatan` (`id_jabatan`, `nama_jabatan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pemasukan`
+-- Struktur dari tabel `pemasukan`
 --
 
 CREATE TABLE `pemasukan` (
   `id_pemasukan` int(11) NOT NULL,
   `jumlah_pemasukan` int(11) NOT NULL,
+  `tanggal_pemasukan` date NOT NULL,
+  `kelas` char(3) DEFAULT NULL,
+  `kode_kelas` varchar(20) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `tanggal_pemasukan` int(11) NOT NULL,
   `id_user` int(11) NOT NULL COMMENT '\r\n'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `pemasukan`
+--
+
+INSERT INTO `pemasukan` (`id_pemasukan`, `jumlah_pemasukan`, `tanggal_pemasukan`, `kelas`, `kode_kelas`, `keterangan`, `id_user`) VALUES
+(1, 500000, '2024-03-01', '-', '', 'Dana Bos', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pengeluaran`
+-- Struktur dari tabel `pengeluaran`
 --
 
 CREATE TABLE `pengeluaran` (
   `id_pengeluaran` int(11) NOT NULL,
   `jumlah_pengeluaran` int(11) NOT NULL,
+  `tanggal_pengeluaran` date NOT NULL,
+  `kelas` char(3) DEFAULT NULL,
+  `kode_kelas` varchar(20) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `tanggal_pengeluaran` int(11) NOT NULL,
   `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `pengeluaran`
+--
+
+INSERT INTO `pengeluaran` (`id_pengeluaran`, `jumlah_pengeluaran`, `tanggal_pengeluaran`, `kelas`, `kode_kelas`, `keterangan`, `id_user`) VALUES
+(1, 200000, '2024-03-19', '-', '', 'Acara Maulid Nabi', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_pemasukan`
+-- Struktur dari tabel `riwayat_pemasukan`
 --
 
 CREATE TABLE `riwayat_pemasukan` (
@@ -82,17 +100,16 @@ CREATE TABLE `riwayat_pemasukan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `riwayat_pemasukan`
+-- Dumping data untuk tabel `riwayat_pemasukan`
 --
 
 INSERT INTO `riwayat_pemasukan` (`id_riwayat_pemasukan`, `id_user`, `aksi`, `tanggal`) VALUES
-(1, 1, 'telah menambahkan pemasukan Dana Bos dengan biaya Rp. 5,000,000', 1710670569),
-(2, 1, 'telah menghapus Pemasukan Dana Bos dari biaya Rp. 5,000,000', 1710670573);
+(1, 1, 'telah menambahkan pemasukan Dana Bos dengan biaya Rp. 500,000', 1710784532);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_pengeluaran`
+-- Struktur dari tabel `riwayat_pengeluaran`
 --
 
 CREATE TABLE `riwayat_pengeluaran` (
@@ -102,10 +119,17 @@ CREATE TABLE `riwayat_pengeluaran` (
   `tanggal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `riwayat_pengeluaran`
+--
+
+INSERT INTO `riwayat_pengeluaran` (`id_riwayat_pengeluaran`, `id_user`, `aksi`, `tanggal`) VALUES
+(1, 1, 'telah menambahkan pengeluaran Acara Maulid Nabi dengan biaya Rp. 200,000', 1710784728);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Struktur dari tabel `user`
 --
 
 CREATE TABLE `user` (
@@ -117,7 +141,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `user`
+-- Dumping data untuk tabel `user`
 --
 
 INSERT INTO `user` (`id_user`, `nama_lengkap`, `username`, `password`, `id_jabatan`) VALUES
@@ -129,116 +153,116 @@ INSERT INTO `user` (`id_user`, `nama_lengkap`, `username`, `password`, `id_jabat
 --
 
 --
--- Indexes for table `jabatan`
+-- Indeks untuk tabel `jabatan`
 --
 ALTER TABLE `jabatan`
   ADD PRIMARY KEY (`id_jabatan`);
 
 --
--- Indexes for table `pemasukan`
+-- Indeks untuk tabel `pemasukan`
 --
 ALTER TABLE `pemasukan`
   ADD PRIMARY KEY (`id_pemasukan`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `pengeluaran`
+-- Indeks untuk tabel `pengeluaran`
 --
 ALTER TABLE `pengeluaran`
   ADD PRIMARY KEY (`id_pengeluaran`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `riwayat_pemasukan`
+-- Indeks untuk tabel `riwayat_pemasukan`
 --
 ALTER TABLE `riwayat_pemasukan`
   ADD PRIMARY KEY (`id_riwayat_pemasukan`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `riwayat_pengeluaran`
+-- Indeks untuk tabel `riwayat_pengeluaran`
 --
 ALTER TABLE `riwayat_pengeluaran`
   ADD PRIMARY KEY (`id_riwayat_pengeluaran`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `user`
+-- Indeks untuk tabel `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id_user`),
   ADD KEY `id_jabatan` (`id_jabatan`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `jabatan`
+-- AUTO_INCREMENT untuk tabel `jabatan`
 --
 ALTER TABLE `jabatan`
   MODIFY `id_jabatan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `pemasukan`
+-- AUTO_INCREMENT untuk tabel `pemasukan`
 --
 ALTER TABLE `pemasukan`
   MODIFY `id_pemasukan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `pengeluaran`
+-- AUTO_INCREMENT untuk tabel `pengeluaran`
 --
 ALTER TABLE `pengeluaran`
-  MODIFY `id_pengeluaran` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pengeluaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `riwayat_pemasukan`
+-- AUTO_INCREMENT untuk tabel `riwayat_pemasukan`
 --
 ALTER TABLE `riwayat_pemasukan`
-  MODIFY `id_riwayat_pemasukan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_riwayat_pemasukan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `riwayat_pengeluaran`
+-- AUTO_INCREMENT untuk tabel `riwayat_pengeluaran`
 --
 ALTER TABLE `riwayat_pengeluaran`
-  MODIFY `id_riwayat_pengeluaran` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_riwayat_pengeluaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `pemasukan`
+-- Ketidakleluasaan untuk tabel `pemasukan`
 --
 ALTER TABLE `pemasukan`
   ADD CONSTRAINT `pemasukan_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `pengeluaran`
+-- Ketidakleluasaan untuk tabel `pengeluaran`
 --
 ALTER TABLE `pengeluaran`
   ADD CONSTRAINT `pengeluaran_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `riwayat_pemasukan`
+-- Ketidakleluasaan untuk tabel `riwayat_pemasukan`
 --
 ALTER TABLE `riwayat_pemasukan`
   ADD CONSTRAINT `riwayat_pemasukan_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `riwayat_pengeluaran`
+-- Ketidakleluasaan untuk tabel `riwayat_pengeluaran`
 --
 ALTER TABLE `riwayat_pengeluaran`
   ADD CONSTRAINT `riwayat_pengeluaran_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `user`
+-- Ketidakleluasaan untuk tabel `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_jabatan`) REFERENCES `jabatan` (`id_jabatan`) ON DELETE CASCADE ON UPDATE CASCADE;

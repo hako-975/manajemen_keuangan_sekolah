@@ -57,11 +57,38 @@
                       </div>
                       <div class="modal-body">
                         <div class="form-group">
-                          <label for="jumlah_pengeluaran">Jumlah Pengeluaran</label>
+                          <label for="jumlah_pengeluaran">Jumlah Pengeluaran <sup class="text-danger">*</sup></label>
                           <input type="number" name="jumlah_pengeluaran" id="jumlah_pengeluaran" required class="form-control" placeholder="Rp.">
                         </div>
+                        <div class="row">
+                          <div class="col-lg">
+                            <div class="form-group">
+                              <label for="tanggal_pengeluaran">Tanggal Pengeluaran <sup class="text-danger">*</sup></label>
+                              <input type="date" name="tanggal_pengeluaran" id="tanggal_pengeluaran" class="form-control" value="<?= date('Y-m-d'); ?>" required>    
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg">
+                            <div class="form-group">
+                              <label for="kelas">Kelas</label>
+                              <select name="kelas" id="kelas" class="custom-select">
+                                <option value="-">-</option>
+                                <option value="X">X</option>
+                                <option value="XI">XI</option>
+                                <option value="XII">XII</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg">
+                            <div class="form-group">
+                              <label for="kode_kelas">Kode Kelas</label>
+                              <input type="text" name="kode_kelas" id="kode_kelas" class="form-control">
+                            </div>
+                          </div>
+                        </div>
                         <div class="form-group">
-                          <label for="keterangan">Keterangan</label>
+                          <label for="keterangan">Keterangan <sup class="text-danger">*</sup></label>
                           <textarea name="keterangan" id="keterangan" required class="form-control"></textarea>
                         </div>
                       </div>
@@ -91,9 +118,11 @@
                   <tr>
                     <th>No.</th>
                     <th>Username</th>
-                    <th>Keterangan</th>
-                    <th>Tanggal Pengeluaran</th>
                     <th>Jumlah Pengeluaran</th>
+                    <th>Tanggal Pengeluaran</th>
+                    <th>Kelas</th>
+                    <th>Kode Kelas</th>
+                    <th>Keterangan</th>
                     <?php if ($_SESSION['id_jabatan'] !== '3'): ?>
                       <th>Aksi</th>
                     <?php endif ?>
@@ -105,9 +134,11 @@
                     <tr>
                       <td><?= $i++; ?></td>
                       <td><?= $dp['username']; ?></td>
-                      <td><?= $dp['keterangan']; ?></td>
-                      <td><?= date("d-m-Y, H:i:s", $dp['tanggal_pengeluaran']); ?></td>
                       <td>Rp. <?= number_format($dp['jumlah_pengeluaran']); ?></td>
+                      <td><?= date('d/m/Y', strtotime($dp['tanggal_pengeluaran'])); ?></td>
+                      <td><?= $dp['kelas']; ?></td>
+                      <td><?= $dp['kode_kelas']; ?></td>
+                      <td><?= $dp['keterangan']; ?></td>
                       <?php if ($_SESSION['id_jabatan'] !== '3'): ?>
                         <td>
                           <a href="" class="badge badge-success" data-toggle="modal" data-target="#editPengeluaranModal<?= $dp['id_pengeluaran']; ?>"><i class="fas fa-fw fa-edit"></i> Ubah</a>
@@ -126,6 +157,33 @@
                                     <div class="form-group">
                                       <label for="jumlah_pengeluaran<?= $dp['id_pengeluaran']; ?>">Jumlah Pengeluaran</label>
                                       <input type="number" name="jumlah_pengeluaran" id="jumlah_pengeluaran<?= $dp['id_pengeluaran']; ?>" required class="form-control" placeholder="Rp." value="<?= $dp['jumlah_pengeluaran']; ?>">
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-lg">
+                                        <div class="form-group">
+                                          <label for="tanggal_pengeluaran<?= $dp['id_pengeluaran']; ?>">Tanggal Pengeluaran <sup class="text-danger">*</sup></label>
+                                          <input type="date" name="tanggal_pengeluaran" id="tanggal_pengeluaran<?= $dp['id_pengeluaran']; ?>" class="form-control" value="<?= $dp['tanggal_pengeluaran']; ?>" required> 
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-lg">
+                                        <div class="form-group">
+                                          <label for="kelas<?= $dp['id_pengeluaran']; ?>">Kelas</label>
+                                          <select name="kelas" id="kelas<?= $dp['id_pengeluaran']; ?>" class="custom-select">
+                                            <option value="<?= $dp['kelas']; ?>"><?= $dp['kelas']; ?></option>
+                                            <option value="X">X</option>
+                                            <option value="XI">XI</option>
+                                            <option value="XII">XII</option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                      <div class="col-lg">
+                                        <div class="form-group">
+                                          <label for="kode_kelas<?= $dp['id_pengeluaran']; ?>">Kode Kelas</label>
+                                          <input type="text" name="kode_kelas" id="kode_kelas<?= $dp['id_pengeluaran']; ?>" class="form-control" value="<?= $dp['kode_kelas']; ?>">
+                                        </div>
+                                      </div>
                                     </div>
                                     <div class="form-group">
                                       <label for="keterangan<?= $dp['id_pengeluaran']; ?>">Keterangan</label>

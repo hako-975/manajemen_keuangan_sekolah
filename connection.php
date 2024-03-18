@@ -8,7 +8,7 @@
 	$host		= "localhost";
 	$username	= "root";
 	$password	= "";
-	$database	= "manajemen_keuangan";
+	$database	= "manajemen_keuangan_baru";
 
 	$conn 		= mysqli_connect($host, $username, $password, $database);
 	if ($conn) {
@@ -201,9 +201,11 @@ function addPengeluaran($data) {
 	global $conn;
 	$id_user = htmlspecialchars($_SESSION['id_user']);
 	$jumlah_pengeluaran = htmlspecialchars($data['jumlah_pengeluaran']);
+	$tanggal_pengeluaran = htmlspecialchars($data['tanggal_pengeluaran']);
+	$kelas = htmlspecialchars($data['kelas']);
+	$kode_kelas = htmlspecialchars($data['kode_kelas']);
 	$keterangan = htmlspecialchars($data['keterangan']);
-	$tanggal_pengeluaran = time();
-	$query = mysqli_query($conn, "INSERT INTO pengeluaran VALUES ('', '$jumlah_pengeluaran', '$keterangan', '$tanggal_pengeluaran', '$id_user')");
+	$query = mysqli_query($conn, "INSERT INTO pengeluaran VALUES ('', '$jumlah_pengeluaran', '$tanggal_pengeluaran', '$kelas', '$kode_kelas', '$keterangan', '$id_user')");
 	riwayatPengeluaran($id_user, "telah menambahkan pengeluaran " . $keterangan . " dengan biaya Rp. " . number_format($jumlah_pengeluaran));
   	return mysqli_affected_rows($conn);
 }
@@ -214,9 +216,11 @@ function editPengeluaran($data) {
 	$id_pengeluaran = htmlspecialchars($data['id_pengeluaran']);
 	$fetch_sql = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM pengeluaran WHERE id_pengeluaran = '$id_pengeluaran'"));
 	$jumlah_pengeluaran = htmlspecialchars($data['jumlah_pengeluaran']);
+	$tanggal_pengeluaran = htmlspecialchars($data['tanggal_pengeluaran']);
+	$kelas = htmlspecialchars($data['kelas']);
+	$kode_kelas = htmlspecialchars($data['kode_kelas']);
 	$keterangan = htmlspecialchars($data['keterangan']);
-	$tanggal_pengeluaran = time();
-	$query = mysqli_query($conn, "UPDATE pengeluaran SET jumlah_pengeluaran = '$jumlah_pengeluaran', keterangan = '$keterangan', tanggal_pengeluaran = '$tanggal_pengeluaran', id_user = '$id_user' WHERE id_pengeluaran = '$id_pengeluaran'");
+	$query = mysqli_query($conn, "UPDATE pengeluaran SET jumlah_pengeluaran = '$jumlah_pengeluaran', keterangan = '$keterangan', tanggal_pengeluaran = '$tanggal_pengeluaran', kelas = '$kelas', kode_kelas = '$kode_kelas', id_user = '$id_user' WHERE id_pengeluaran = '$id_pengeluaran'");
 	riwayatPengeluaran($id_user, "telah mengubah pengeluaran " . $keterangan . " dari biaya Rp. " . number_format($fetch_sql['jumlah_pengeluaran']) . " menjadi Rp. " . number_format($jumlah_pengeluaran));
   	return mysqli_affected_rows($conn);
 }
@@ -238,9 +242,11 @@ function addPemasukan($data) {
 	global $conn;
 	$id_user = htmlspecialchars($_SESSION['id_user']);
 	$jumlah_pemasukan = htmlspecialchars($data['jumlah_pemasukan']);
+	$tanggal_pemasukan = htmlspecialchars($data['tanggal_pemasukan']);
+	$kelas = htmlspecialchars($data['kelas']);
+	$kode_kelas = htmlspecialchars($data['kode_kelas']);
 	$keterangan = htmlspecialchars($data['keterangan']);
-	$tanggal_pemasukan = time();
-	$query = mysqli_query($conn, "INSERT INTO pemasukan VALUES ('', '$jumlah_pemasukan', '$keterangan', '$tanggal_pemasukan', '$id_user')");
+	$query = mysqli_query($conn, "INSERT INTO pemasukan VALUES ('', '$jumlah_pemasukan', '$tanggal_pemasukan', '$kelas', '$kode_kelas', '$keterangan', '$id_user')");
 	riwayatPemasukan($id_user, "telah menambahkan pemasukan " . $keterangan . " dengan biaya Rp. " . number_format($jumlah_pemasukan));
   	return mysqli_affected_rows($conn);
 }
@@ -251,9 +257,11 @@ function editPemasukan($data) {
 	$id_pemasukan = htmlspecialchars($data['id_pemasukan']);
 	$fetch_sql = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM pemasukan WHERE id_pemasukan = '$id_pemasukan'"));
 	$jumlah_pemasukan = htmlspecialchars($data['jumlah_pemasukan']);
+	$tanggal_pemasukan = htmlspecialchars($data['tanggal_pemasukan']);
+	$kelas = htmlspecialchars($data['kelas']);
+	$kode_kelas = htmlspecialchars($data['kode_kelas']);
 	$keterangan = htmlspecialchars($data['keterangan']);
-	$tanggal_pemasukan = time();
-	$query = mysqli_query($conn, "UPDATE pemasukan SET jumlah_pemasukan = '$jumlah_pemasukan', keterangan = '$keterangan', tanggal_pemasukan = '$tanggal_pemasukan', id_user = '$id_user' WHERE id_pemasukan = '$id_pemasukan'");
+	$query = mysqli_query($conn, "UPDATE pemasukan SET jumlah_pemasukan = '$jumlah_pemasukan', keterangan = '$keterangan', tanggal_pemasukan = '$tanggal_pemasukan', kelas = '$kelas', kode_kelas = '$kode_kelas', id_user = '$id_user' WHERE id_pemasukan = '$id_pemasukan'");
 	riwayatPemasukan($id_user, "telah mengubah pemasukan " . $keterangan . " dari biaya Rp. " . number_format($fetch_sql['jumlah_pemasukan']) . " menjadi Rp. " . number_format($jumlah_pemasukan));
   	return mysqli_affected_rows($conn);
 }

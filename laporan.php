@@ -2,30 +2,24 @@
   require 'connection.php';
   checkLogin();
   if (isset($_POST['btnLaporanPemasukan'])) {
-  	$dari_tanggal_date = htmlspecialchars($_POST['dari_tanggal']);
-  	$sampai_tanggal_date = htmlspecialchars($_POST['sampai_tanggal']);
-  	$dari_tanggal = strtotime(htmlspecialchars($_POST['dari_tanggal'] . " 00:00:00"));
-  	$sampai_tanggal = strtotime(htmlspecialchars($_POST['sampai_tanggal'] . " 23:59:59"));
+  	$dari_tanggal = htmlspecialchars($_POST['dari_tanggal']);
+  	$sampai_tanggal = htmlspecialchars($_POST['sampai_tanggal']);
   	$sql = mysqli_query($conn, "SELECT * FROM pemasukan INNER JOIN user ON pemasukan.id_user = user.id_user WHERE tanggal_pemasukan BETWEEN '$dari_tanggal' AND '$sampai_tanggal'");
   	$fetch_sql = mysqli_fetch_assoc($sql);
   	$btnClick = true;
   	$titleLaporan = "Pemasukan";
   }
   if (isset($_POST['btnLaporanPengeluaran'])) {
-  	$dari_tanggal_date = htmlspecialchars($_POST['dari_tanggal']);
-  	$sampai_tanggal_date = htmlspecialchars($_POST['sampai_tanggal']);
-  	$dari_tanggal = strtotime(htmlspecialchars($_POST['dari_tanggal'] . " 00:00:00"));
-  	$sampai_tanggal = strtotime(htmlspecialchars($_POST['sampai_tanggal'] . " 23:59:59"));
+  	$dari_tanggal = htmlspecialchars($_POST['dari_tanggal']);
+  	$sampai_tanggal = htmlspecialchars($_POST['sampai_tanggal']);
   	$sql = mysqli_query($conn, "SELECT * FROM pengeluaran INNER JOIN user ON pengeluaran.id_user = user.id_user WHERE tanggal_pengeluaran BETWEEN '$dari_tanggal' AND '$sampai_tanggal'");
   	$fetch_sql = mysqli_fetch_assoc($sql);
   	$btnClick = true;
   	$titleLaporan = "Pengeluaran";
   }
   if (isset($_POST['btnLaporanPemasukanDanPengeluaran'])) {
-  	$dari_tanggal_date = htmlspecialchars($_POST['dari_tanggal']);
-    $sampai_tanggal_date = htmlspecialchars($_POST['sampai_tanggal']);
-    $dari_tanggal = strtotime(htmlspecialchars($_POST['dari_tanggal'] . " 00:00:00"));
-    $sampai_tanggal = strtotime(htmlspecialchars($_POST['sampai_tanggal'] . " 23:59:59"));
+    $dari_tanggal = htmlspecialchars($_POST['dari_tanggal']);
+    $sampai_tanggal = htmlspecialchars($_POST['sampai_tanggal']);
     
     // Fetch both income and expense data from the database
     $sql_pemasukan = mysqli_query($conn, "SELECT *, 'Pemasukan' as jenis_transaksi FROM pemasukan INNER JOIN user ON pemasukan.id_user = user.id_user WHERE tanggal_pemasukan BETWEEN '$dari_tanggal' AND '$sampai_tanggal'");
@@ -125,13 +119,15 @@
         	<div class="row m-1 mb-0">
 	        	<div class="col-lg m-1">
 	        		<h2 class="text-center mb-3 mt-2">Laporan <?= $titleLaporan; ?></h2>
-	        		<h3 class="text-left mb-3">Laporan Dari Tanggal: <?= $dari_tanggal_date; ?> Sampai Tanggal: <?= $sampai_tanggal_date; ?></h3>
+	        		<h3 class="text-left mb-3">Laporan Dari Tanggal: <?= date('d/m/Y', strtotime($dari_tanggal)); ?> Sampai Tanggal: <?= date('d/m/Y', strtotime($sampai_tanggal)); ?></h3>
 	        		<div class="table-responsive">
 	        			<table class="table table-bordered table-hover">
 	        				<thead>
 	        					<tr>
 	        						<th>No.</th>
 	        						<th><?= $titleLaporan; ?></th>
+	        						<th>Kelas</th>
+	        						<th>Kode Kelas</th>
 	        						<th>Keterangan</th>
 	        						<?php if ($titleLaporan == "Pemasukan dan Pengeluaran"): ?>
 	        							<th>Jenis Transaksi</th>
@@ -148,8 +144,10 @@
 		        						<tr>
 		        							<td><?= $i++; ?></td>
 		        							<td><?= number_format($ds['jumlah_pemasukan']); ?></td>
+		        							<td><?= $ds['kelas']; ?></td>
+		        							<td><?= $ds['kode_kelas']; ?></td>
 		        							<td><?= $ds['keterangan']; ?></td>
-		        							<td><?= date('d-m-Y, H:i:s', $ds['tanggal_pemasukan']); ?></td>
+		        							<td><?= $ds['tanggal_pemasukan']; ?></td>
 		        							<td><?= $ds['username']; ?></td>
 		        						</tr>
 		        						<?php 
@@ -162,14 +160,18 @@
 										        <td><?= $i++; ?></td>
 										        <?php if ($ds['jenis_transaksi'] == 'Pemasukan'): ?>
 										            <td><?= number_format($ds['jumlah_pemasukan']); ?></td>
+										            <td><?= $ds['kelas']; ?></td>
+					        							<td><?= $ds['kode_kelas']; ?></td>
 										            <td><?= $ds['keterangan']; ?></td>
 										            <td><?= $ds['jenis_transaksi']; ?></td>
-										            <td><?= date('d-m-Y, H:i:s', $ds['tanggal_pemasukan']); ?></td>
+										            <td><?= $ds['tanggal_pemasukan']; ?></td>
 										        <?php else: ?>
 										            <td><?= number_format($ds['jumlah_pengeluaran']); ?></td>
+										            <td><?= $ds['kelas']; ?></td>
+					        							<td><?= $ds['kode_kelas']; ?></td>
 										            <td><?= $ds['keterangan']; ?></td>
 										            <td><?= $ds['jenis_transaksi']; ?></td>
-										            <td><?= date('d-m-Y, H:i:s', $ds['tanggal_pengeluaran']); ?></td>
+										            <td><?= $ds['tanggal_pengeluaran']; ?></td>
 										        <?php endif ?>
 										        <td><?= $ds['username']; ?></td>
 										    </tr>
@@ -186,8 +188,10 @@
 		        						<tr>
 		        							<td><?= $i++; ?></td>
 		        							<td><?= number_format($ds['jumlah_pengeluaran']); ?></td>
+		        							<td><?= $ds['kelas']; ?></td>
+		        							<td><?= $ds['kode_kelas']; ?></td>
 		        							<td><?= $ds['keterangan']; ?></td>
-		        							<td><?= date('d-m-Y, H:i:s', $ds['tanggal_pengeluaran']); ?></td>
+		        							<td><?= $ds['tanggal_pengeluaran']; ?></td>
 		        							<td><?= $ds['username']; ?></td>
 		        						</tr>
 		        						<?php 
